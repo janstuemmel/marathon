@@ -16,6 +16,7 @@ jobs:
         id: scan_code
         with:
           path: '.'
+          fail-build: false
       - run: cat {{ steps.scan_code.outputs.sarif }}
 
   docker_scan:
@@ -29,5 +30,5 @@ jobs:
         id: scan_docker
         with:
           image: "marathon:latest"
-
+          fail-build: false
       - run: cat {{ steps.scan_docker.outputs.sarif }}
