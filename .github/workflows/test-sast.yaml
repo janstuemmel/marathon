@@ -1,0 +1,33 @@
+name: SCA Scan
+
+on:
+  push:
+    branches:
+    - 'master'
+
+jobs: 
+  test_sast:
+    name: Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Scan code
+        uses: anchore/scan-action@v3
+        id: scan_code
+        with:
+          path: '.'
+      - run: cat {{ steps.scan_code.outputs.sarif }}
+
+  docker_scan:
+    name: Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: ./docker-build-marathon-image.sh
+      - name: Scan docker image
+        uses: anchore/scan-action@v3
+        id: scan_docker
+        with:
+          image: "marathon:latest"
+
+      - run: cat {{ steps.scan_docker.outputs.sarif }}
