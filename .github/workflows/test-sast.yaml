@@ -18,7 +18,7 @@ jobs:
           path: '.'
           fail-build: false
           acs-report-enable: true
-      - run: cat {{ steps.scan_code.outputs.sarif }}
+      - run: cat ${{ steps.scan_code.outputs.sarif }}
 
   docker_scan:
     name: Scan
@@ -33,4 +33,4 @@ jobs:
           image: "marathon:latest"
           fail-build: false
           acs-report-enable: true
-      - run: cat {{ steps.scan_docker.outputs.sarif }}
+      - run: cat ${{ steps.scan_docker.outputs.sarif }}
